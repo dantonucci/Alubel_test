@@ -4,7 +4,7 @@ from flask_jwt import JWT
 from resources import res_credentials
 # from resources.Query import QueryTot
 from security import authenticate, identity
-from resources.res_credentials import UserRegister,DBInflux
+from resources.res_credentials import UserRegister,DBInflux,DataFromSystem
 
 
 app = Flask(__name__)
@@ -29,6 +29,8 @@ api.add_resource(UserRegister, '/register')
 api.add_resource(DBInflux, '/DBTimeSeries/<string:Project_name>')
 
 # QUERY
+    
+api.add_resource(DataFromSystem, '/Postjson/<string:Project_name>')
 # api.add_resource(GetBuildingTypeClass, '/GetBuildingTypeClass')
 # api.add_resource(GetSensorClass, '/GetSensorClass')
 # api.add_resource(GetSensorSpace, '/GetSensorSpace')

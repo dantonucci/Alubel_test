@@ -1,0 +1,36 @@
+{
+    "time": "2020-12-18T11:01:39.508Z",
+    "project": "project1",
+    "session": "project_session",
+    "configuration": "configuration1",
+    "AMB": {
+        "THM01TY": 0,
+        "WS01CY": 0,
+        "THM01HY": 0
+    },
+    "WE": {
+        "TM01TY": 0,
+        "TM02TY": 0
+    },
+    "FS": {
+        "TM01TY": 0,
+        "TM02TY": 0
+    },
+    "WD": {
+        "TM01TY": 0,
+        "TM02TY": 0
+    },
+    "WB": {
+        "TM01TY": 0
+    },
+    "CS": {
+        "TM01TY": 0,
+        "TM02TY": 0
+    },
+    "FREE": {
+        "VD13NY": 0,
+        "VD14NY": 0,
+        "VD15NY": 0,
+        "VD16NY": 0
+    }
+}

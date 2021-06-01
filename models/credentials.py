@@ -26,7 +26,7 @@ class UserModel(db.Model):
         return cls.query.filter_by(id=_id).first()
   
   
-  
+# Models to create tabel of credentials for TimeSeries Database
 class InfluxDB(db.Model):
     __tablename__ = 'DB_credentials'
     
@@ -70,7 +70,7 @@ class InfluxDB(db.Model):
         db.session.commit()
         
     @classmethod
-    def db_connection(cls, Project_name,query):
+    def db_connection(cls, Project_name):#,query):
         Credentials = cls.query.filter_by(Project_name=Project_name).first()
         Client = InfluxDBClient(
             host =  Credentials.host_DB,
@@ -82,19 +82,14 @@ class InfluxDB(db.Model):
             verify_ssl= True
         )
         
-        ResultQuery = Client.query(query)
+        # ResultQuery = Client.query(query)
         
-        return (ResultQuery)
+        # return (ResultQuery)
+        return(Client)
     
     @classmethod    
     def Get_DB_Info(cls, Project_name):
-        Credentials = cls.query.filter_by(Project_name=Project_name).first()
-        return {
-            'Project_name': Credentials.Project_name,
-            'host_DB': Credentials.host_DB,
-            'port_DB': Credentials.port_DB,
-            'username_DB': Credentials.username_DB,
-            'password_DB': Credentials.password_DB,
-            'database_DB': Credentials.database_DB 
-        }
+        return cls.query.filter_by(Project_name=Project_name).first()
         
+# class DataFromSystem(db.Model):
+#     def __init__(self):

@@ -1,7 +1,13 @@
 from flask_restful import Resource, reqparse
-from models.credentilas import UserModel, InfluxDB
+from models.credentials import UserModel, InfluxDB
+from flask import request, jsonify
+import json
+from models.JsonInflux import FromJson_to_Database
+
 from flask_jwt import jwt_required
 
+
+# USERNAME AND PASSWORD 
 class UserRegister(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument('username',
@@ -26,7 +32,9 @@ class UserRegister(Resource):
 
         return {"message": "User created successfully."}, 201
     
-    
+ 
+ 
+# TIMESERIES DATABASE    
 class DBInflux(Resource):
     parser = reqparse.RequestParser()
 
@@ -58,18 +66,19 @@ class DBInflux(Resource):
 
     @jwt_required()
     def get(self,Project_name):
-        
+        ''' 
+        Check database onf INfluxdb credentials available
+        '''
         item = InfluxDB.Get_DB_Info(Project_name)
-        return item
-        # if item:
-        #     return item.json()
+        if item:
+            return item.json()
+        return {'message': 'Item not found'}, 404
 
-        # item = InfluxDB.find_database(Project_name)
-        # if item:
-        #     return item.json()
-        # return {'message': 'Item not found'}, 404
-
+    @jwt_required()
     def post(self, Project_name):
+        ''' 
+        Save credentials of DB timseries.
+        '''
         if InfluxDB.find_database(Project_name):
             return {'message': "An item with name '{}' already exists.".format(Project_name)}, 400
 
@@ -85,23 +94,42 @@ class DBInflux(Resource):
         # 
         return item.json(), 201
 
+    @jwt_required()
     def delete(self, Project_name):
+        ''' 
+        Delete database credentials
+        '''
         item = InfluxDB.find_database(Project_name)
         if item:
             item.delete_from_db()
             return {'message': 'Item deleted.'}
         return {'message': 'Item not found.'}, 404
 
-    def put(self, Project_name):
-        data = DBInflux.parser.parse_args()
+    # def put(self, Project_name):
+    #     data = DBInflux.parser.parse_args()
 
-        item = InfluxDB.find_database(Project_name)
+    #     item = InfluxDB.find_database(Project_name)
 
-        if item:
-            item.price = data['price']
-        else:
-            item = InfluxDB(Project_name, **data)
+    #     if item:
+    #         item.price = data['price']
+    #     else:
+    #         item = InfluxDB(Project_name, **data)
 
-        item.save_to_db()
+    #     item.save_to_db()
 
-        return item.json()
+    #     return item.json()
+
+       
+# POST JSON      
+class DataFromSystem(Resource):  
+    
+    @jwt_required()
+    def post(self,Project_name):
+        
+        Client = InfluxDB.db_connection(Project_name)
+        content = request.get_json()
+        Result = FromJson_to_Database(content,Client)
+        
+        return (json.dumps(Result))
+
+    
