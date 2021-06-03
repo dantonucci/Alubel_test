@@ -91,5 +91,3 @@ class InfluxDB(db.Model):
     def Get_DB_Info(cls, Project_name):
         return cls.query.filter_by(Project_name=Project_name).first()
         
-# class DataFromSystem(db.Model):
-#     def __init__(self):
