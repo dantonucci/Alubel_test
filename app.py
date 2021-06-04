@@ -13,7 +13,7 @@ app = Flask(__name__)
 
 app.config['DEBUG'] = True
 app.secret_key = 'Alubel2021'
-api = Api(app)
+
 
 
 # SETUP DATABASE USER 
@@ -36,6 +36,8 @@ app.config['JWT_AUTH_USERNAME_KEY'] = 'email'
 # LOGIN as ENDPOINT
 app.config['JWT_AUTH_URL_RULE'] = '/login'
 jwt = JWT(app, authenticate, identity)  # /auth
+
+api = Api(app)
 
 # ADD RESOURCES 
 ## USER 
