@@ -9,6 +9,8 @@ from resources import res_credentials
 from security import authenticate, identity
 from resources.res_credentials import UserRegister,DBInflux,DataFromSystem
 
+import datetime
+
 app = Flask(__name__)
 
 app.config['DEBUG'] = True
@@ -33,11 +35,13 @@ app.config['JWT_EXPIRATION_DELTA'] = datetime.timedelta(days=365)
 # AUTHENTICATION USING EMAIL INSTEAD USERNAME
 app.config['JWT_AUTH_USERNAME_KEY'] = 'email'
 
+api = Api(app)
+
 # LOGIN as ENDPOINT
 app.config['JWT_AUTH_URL_RULE'] = '/login'
 jwt = JWT(app, authenticate, identity)  # /auth
 
-api = Api(app)
+
 
 # ADD RESOURCES 
 ## USER 
