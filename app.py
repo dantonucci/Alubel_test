@@ -28,7 +28,7 @@ app.config['JWT_AUTH_URL_RULE'] = '/login'
 jwt = JWT(app, authenticate, identity)  # /auth
 
 # TOKEN EXPIRATION TIME
-app.config['JWT_EXPIRATION_DELTA'] = timedelta(seconds=1800)
+app.config['JWT_EXPIRATION_DELTA'] = datetime.timedelta(days=365)
 
 # AUTHENTICATION USING EMAIL INSTEAD USERNAME
 app.config['JWT_AUTH_USERNAME_KEY'] = 'email'
