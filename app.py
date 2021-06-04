@@ -1,15 +1,23 @@
+import os
+import re
+
 from flask import Flask
 from flask_restful import Api
 from flask_jwt import JWT
 from resources import res_credentials
-import os
+
 from security import authenticate, identity
 from resources.res_credentials import UserRegister,DBInflux,DataFromSystem
-
 
 app = Flask(__name__)
 
 app.config['DEBUG'] = True
+
+uri = os.getenv("DATABASE_URL")  # or other relevant config var
+if uri.startswith("postgres://"):
+    uri = uri.replace("postgres://", "postgresql://", 1)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(uri, 'sqlite:///data.db')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///User_DBcredentials.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
