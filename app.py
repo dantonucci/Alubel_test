@@ -13,24 +13,29 @@ app = Flask(__name__)
 
 app.config['DEBUG'] = True
 
+# SETUP DATABASE USER 
 uri = os.getenv("DATABASE_URL")  # or other relevant config var
 if uri.startswith("postgres://"):
     uri = uri.replace("postgres://", "postgresql://", 1)
+
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(uri, 'sqlite:///data.db')
-
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///User_DBcredentials.db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///User_DBcredentials.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
 # app.config['PROPAGATE_EXCEPTIONS'] = True
+
+# LOGIN AS ENDPOINT
+app.config['JWT_AUTH_URL_RULE'] = '/login'
+jwt = JWT(app, authenticate, identity)  # /auth
+
+# TOKEN EXPIRATION TIME
+app.config['JWT_EXPIRATION_DELTA'] = timedelta(seconds=1800)
+
+# AUTHENTICATION USING EMAIL INSTEAD USERNAME
+app.config['JWT_AUTH_USERNAME_KEY'] = 'email'
+
+#
 app.secret_key = 'Alubel2021'
 api = Api(app)
-
-# CREATE TABLES DB USER AND DATABASES 
-# @app.before_first_request
-# def create_tables():
-#     db.create_all()
-
-jwt = JWT(app, authenticate, identity)  # /auth
 
 # ADD RESOURCES 
 ## USER 
