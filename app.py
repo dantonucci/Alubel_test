@@ -33,7 +33,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_EXPIRATION_DELTA'] = datetime.timedelta(days=365)
 
 # AUTHENTICATION USING EMAIL INSTEAD USERNAME
-app.config['JWT_AUTH_USERNAME_KEY'] = 'email'
+# app.config['JWT_AUTH_USERNAME_KEY'] = 'email'
 
 api = Api(app)
 
