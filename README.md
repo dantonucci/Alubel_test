@@ -18,7 +18,7 @@ url = https://eeb-testapi.herokuapp.com
 provide credentials as json/content:
 
     {
-        email: ...
+        username: ...
         password: ...
     }
 
@@ -39,7 +39,8 @@ Example in Test.py
 import requests
 import json
 
-url = "http://127.0.1:5001/auth"
+# url = "http://127.0.1:5001/auth"
+url = "https://eeb-testapi.herokuapp.com/login"
 
 payload = json.dumps({
   "username": "mario",
@@ -56,9 +57,11 @@ print(response.text)
 Result = response.json()
 valid_token = Result['access_token']
 
+#%%
+# ==================== MAKE A REQUEST ==============
 
-url = "http://127.0.1:5001/Postjson/NewAirDB"
-
+# url = "http://127.0.1:5001/Postjson/NewAirDB"
+url = "https://eeb-testapi.herokuapp.com/PostJson/NewAirDB"
 
 # Right File
 file = "/Users/dantonucci/Alubel/Esempi_json/json with session and project.json"
